@@ -15,6 +15,10 @@ import { AmqpService } from './amqp.service';
             name: 'user',
             type: 'topic',
           },
+          {
+            name: 'profile',
+            type: 'topic',
+          },
         ],
         connectionInitOptions: { wait: false },
       }),
