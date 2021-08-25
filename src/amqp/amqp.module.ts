@@ -12,11 +12,11 @@ import { AmqpService } from './amqp.service';
         uri: configService.get('AMQP_URL'),
         exchanges: [
           {
-            name: 'user',
+            name: 'user.write',
             type: 'topic',
           },
           {
-            name: 'profile',
+            name: 'profile.write',
             type: 'topic',
           },
         ],
