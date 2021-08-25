@@ -1,15 +1,18 @@
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
+import { UserDto } from './dto/user.dto';
+import { ProfilesService } from './profiles.service';
 
 @Injectable()
 export class ProfilesConsumer {
+  constructor(private readonly profilesService: ProfilesService) {}
+
   @RabbitSubscribe({
     exchange: 'user',
     routingKey: 'user.created',
     queue: 'profile-service-queue',
   })
-  createProfile(userDto: unknown) {
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(userDto));
+  createProfile(userDto: UserDto) {
+    this.profilesService.createFromUser(userDto);
   }
 }
