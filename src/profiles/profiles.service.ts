@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { AmqpService } from 'src/amqp/amqp.service';
 import { Repository } from 'typeorm';
 import { ProfilePatchDto } from './dto/profile-patch.dto';
@@ -9,6 +10,7 @@ import { Profile } from './entities/profile.entity';
 @Injectable()
 export class ProfilesService {
   constructor(
+    @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
     private readonly amqpService: AmqpService
   ) {}
