@@ -18,6 +18,7 @@ import { ProfilesModule } from './profiles/profiles.module';
         database: configService.get('DB_NAME'),
         password: configService.get('DB_PASSWORD'),
         autoLoadEntities: true,
+        logging: true,
         synchronize: true,
       }),
     }),

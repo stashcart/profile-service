@@ -8,9 +8,9 @@ export class Profile {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 }
