@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ProfilePatchDto } from './dto/profile-patch.dto';
+import { ProfilePatchRequestDto } from './dto/profile-patch.request.dto';
 import { ProfileDto } from './dto/profile.dto';
 import { ProfilesService } from './profiles.service';
 
@@ -26,9 +26,12 @@ export class ProfilesController {
   @Patch(':id')
   async patch(
     @Param() id: number,
-    @Body() profilePatchDto: ProfilePatchDto
+    @Body() profilePatchRequestDto: ProfilePatchRequestDto
   ): Promise<ProfileDto> {
-    const profile = await this.profilesService.patch(id, profilePatchDto);
+    const profile = await this.profilesService.patch(
+      id,
+      profilePatchRequestDto
+    );
 
     return new ProfileDto(profile);
   }

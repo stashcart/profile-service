@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AmqpService } from 'src/amqp/amqp.service';
 import { Repository } from 'typeorm';
-import { ProfilePatchDto } from './dto/profile-patch.dto';
+import { ProfilePatchRequestDto } from './dto/profile-patch.request.dto';
 import { ProfileDto } from './dto/profile.dto';
 import { UserDto } from './dto/user.dto';
 import { Profile } from './entities/profile.entity';
@@ -43,7 +43,10 @@ export class ProfilesService {
     return this.profileRepository.save(profile);
   }
 
-  async patch(id: number, profilePatchDto: ProfilePatchDto): Promise<Profile> {
+  async patch(
+    id: number,
+    profilePatchDto: ProfilePatchRequestDto
+  ): Promise<Profile> {
     const profile = await this.findById(id);
 
     if (profilePatchDto.name) {

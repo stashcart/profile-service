@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDefined, IsOptional, Matches } from 'class-validator';
+import { IsDefined, IsOptional, IsString, Matches } from 'class-validator';
 
-export class ProfilePatchDto {
+export class ProfilePatchRequestDto {
   @ApiProperty({ example: 'John Wick' })
-  @IsDefined()
   @IsOptional()
+  @IsString()
   name?: string;
 
   @ApiProperty({ example: '0981234567' })
   @Matches(/\d{10}/)
-  @IsDefined()
   @IsOptional()
+  @IsString()
   phone?: string;
 }
