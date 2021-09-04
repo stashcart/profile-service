@@ -17,7 +17,7 @@ export class ProfilesController {
   }
 
   @Get(':id')
-  async findById(@Param() id: number): Promise<ProfileDto> {
+  async findById(@Param('id') id: number): Promise<ProfileDto> {
     const profile = await this.profilesService.findById(id);
 
     return new ProfileDto(profile);
@@ -25,7 +25,7 @@ export class ProfilesController {
 
   @Patch(':id')
   async patch(
-    @Param() id: number,
+    @Param('id') id: number,
     @Body() profilePatchRequestDto: ProfilePatchRequestDto
   ): Promise<ProfileDto> {
     const profile = await this.profilesService.patch(

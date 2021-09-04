@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { isDefined } from 'class-validator';
 import { AmqpService } from 'src/amqp/amqp.service';
 import { Repository } from 'typeorm';
 import { ProfilePatchRequestDto } from './dto/profile-patch.request.dto';
@@ -34,13 +35,15 @@ export class ProfilesService {
     profile.id = userDto.id;
     profile.email = userDto.email;
 
+    const savedProfile = await this.profileRepository.save(profile);
+
     await this.amqpService.publish(
       'profile.write',
       'profile.created',
-      new ProfileDto(profile)
+      new ProfileDto(savedProfile)
     );
 
-    return this.profileRepository.save(profile);
+    return savedProfile;
   }
 
   async patch(
@@ -49,10 +52,10 @@ export class ProfilesService {
   ): Promise<Profile> {
     const profile = await this.findById(id);
 
-    if (profilePatchDto.name) {
+    if (isDefined(profilePatchDto.name)) {
       profile.name = profilePatchDto.name;
     }
-    if (profilePatchDto.phone) {
+    if (isDefined(profilePatchDto.phone)) {
       profile.phone = profilePatchDto.phone;
     }
 
@@ -61,7 +64,7 @@ export class ProfilesService {
     await this.amqpService.publish(
       'profile.write',
       'profile.updated',
-      new ProfileDto(profile)
+      new ProfileDto(savedProfile)
     );
 
     return savedProfile;
