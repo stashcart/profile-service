@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { isDefined } from 'class-validator';
 import { AmqpService } from 'src/amqp/amqp.service';
 import { Repository } from 'typeorm';
-import { CreateProfileDto } from './dto/create-profile.dto';
+import { CreateProfileRequestDto } from './dto/create-profile.request.dto';
 import { ProfilePatchRequestDto } from './dto/profile-patch.request.dto';
 import { ProfileDto } from './dto/profile.dto';
 import { UserDto } from './dto/user.dto';
@@ -31,7 +31,7 @@ export class ProfilesService {
     return profile;
   }
 
-  async create(profileDto: CreateProfileDto): Promise<Profile> {
+  async create(profileDto: CreateProfileRequestDto): Promise<Profile> {
     const profile = new Profile();
     profile.email = profileDto.email;
     profile.name = profileDto.name;

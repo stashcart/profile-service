@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, Matches } from 'class-validator';
 
-export class CreateProfileDto {
+export class CreateProfileRequestDto {
   @IsEmail()
   email: string;
 
