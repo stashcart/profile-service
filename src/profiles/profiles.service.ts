@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { isDefined } from 'class-validator';
 import { AmqpService } from 'src/amqp/amqp.service';
 import { Repository } from 'typeorm';
+import { CreateProfileDto } from './dto/create-profile.dto';
 import { ProfilePatchRequestDto } from './dto/profile-patch.request.dto';
 import { ProfileDto } from './dto/profile.dto';
 import { UserDto } from './dto/user.dto';
@@ -30,11 +31,16 @@ export class ProfilesService {
     return profile;
   }
 
-  async createFromUser(userDto: UserDto): Promise<Profile> {
+  async create(profileDto: CreateProfileDto): Promise<Profile> {
     const profile = new Profile();
-    profile.id = userDto.id;
-    profile.email = userDto.email;
+    profile.email = profileDto.email;
+    profile.name = profileDto.name;
+    profile.phone = profileDto.phone;
 
+    return this.saveAndPublishProfile(profile);
+  }
+
+  private async saveAndPublishProfile(profile: Profile): Promise<Profile> {
     const savedProfile = await this.profileRepository.save(profile);
 
     await this.amqpService.publish(
@@ -44,6 +50,14 @@ export class ProfilesService {
     );
 
     return savedProfile;
+  }
+
+  async createFromUser(userDto: UserDto): Promise<Profile> {
+    const profile = new Profile();
+    profile.id = userDto.id;
+    profile.email = userDto.email;
+
+    return this.saveAndPublishProfile(profile);
   }
 
   async patch(
@@ -57,6 +71,9 @@ export class ProfilesService {
     }
     if (isDefined(profilePatchDto.phone)) {
       profile.phone = profilePatchDto.phone;
+    }
+    if (isDefined(profilePatchDto.email)) {
+      profile.email = profilePatchDto.email;
     }
 
     const savedProfile = await this.profileRepository.save(profile);

@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateProfileDto } from './dto/create-profile.dto';
 import { ProfilePatchRequestDto } from './dto/profile-patch.request.dto';
 import { ProfileDto } from './dto/profile.dto';
 import { ProfilesService } from './profiles.service';
@@ -12,14 +13,12 @@ export class ProfilesController {
   @Get()
   async findAll(): Promise<ProfileDto[]> {
     const profiles = await this.profilesService.findAll();
-
     return profiles.map((profile) => new ProfileDto(profile));
   }
 
   @Get(':id')
   async findById(@Param('id') id: string): Promise<ProfileDto> {
     const profile = await this.profilesService.findById(id);
-
     return new ProfileDto(profile);
   }
 
@@ -32,7 +31,14 @@ export class ProfilesController {
       id,
       profilePatchRequestDto
     );
+    return new ProfileDto(profile);
+  }
 
+  @Post()
+  async create(
+    @Body() createProfileDto: CreateProfileDto
+  ): Promise<ProfileDto> {
+    const profile = await this.profilesService.create(createProfileDto);
     return new ProfileDto(profile);
   }
 }
