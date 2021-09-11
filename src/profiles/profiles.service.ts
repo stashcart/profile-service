@@ -20,7 +20,7 @@ export class ProfilesService {
     return this.profileRepository.find();
   }
 
-  async findById(id: number): Promise<Profile> {
+  async findById(id: string): Promise<Profile> {
     const profile = await this.profileRepository.findOne(id);
 
     if (!profile) {
@@ -47,7 +47,7 @@ export class ProfilesService {
   }
 
   async patch(
-    id: number,
+    id: string,
     profilePatchDto: ProfilePatchRequestDto
   ): Promise<Profile> {
     const profile = await this.findById(id);

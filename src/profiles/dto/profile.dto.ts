@@ -1,7 +1,7 @@
 import { Profile } from '../entities/profile.entity';
 
 export class ProfileDto {
-  id: number;
+  id: string;
 
   email: string;
 
