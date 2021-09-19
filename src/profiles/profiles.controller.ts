@@ -22,6 +22,7 @@ export class ProfilesController {
     return new ProfileDto(profile);
   }
 
+  // TODO: Add on behalf of header
   @Patch(':id')
   async patch(
     @Param('id') id: string,
