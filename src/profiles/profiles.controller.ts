@@ -1,5 +1,16 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { isDefined } from 'class-validator';
+import { OnBehalfOf } from 'src/_common/decorators/on-behalf-of.decorator';
+import { ApiOnBehalfOf } from 'src/_common/decorators/swagger/api.on-behalf-of.decorator';
 import { CreateProfileRequestDto } from './dto/create-profile.request.dto';
 import { ProfilePatchRequestDto } from './dto/profile-patch.request.dto';
 import { ProfileDto } from './dto/profile.dto';
@@ -22,12 +33,17 @@ export class ProfilesController {
     return new ProfileDto(profile);
   }
 
-  // TODO: Add on behalf of header
+  @ApiOnBehalfOf()
   @Patch(':id')
   async patch(
     @Param('id') id: string,
-    @Body() profilePatchRequestDto: ProfilePatchRequestDto
+    @Body() profilePatchRequestDto: ProfilePatchRequestDto,
+    @OnBehalfOf() userId: string
   ): Promise<ProfileDto> {
+    if (isDefined(userId) && userId !== id) {
+      throw new ForbiddenException();
+    }
+
     const profile = await this.profilesService.patch(
       id,
       profilePatchRequestDto
