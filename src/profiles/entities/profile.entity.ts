@@ -3,14 +3,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('profiles')
 export class Profile {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string | null;
 
   @Column({ nullable: true })
-  name: string;
+  name!: string | null;
 
   @Column({ nullable: true })
-  phone: string;
+  phone!: string | null;
 }

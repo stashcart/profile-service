@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { isDefined } from 'class-validator';
 import { AmqpService } from 'src/amqp/amqp.service';
 import { Repository } from 'typeorm';
 import { CreateProfileRequestDto } from './dto/create-profile.request.dto';
@@ -66,13 +65,13 @@ export class ProfilesService {
   ): Promise<Profile> {
     const profile = await this.findById(id);
 
-    if (isDefined(profilePatchDto.name)) {
+    if (profilePatchDto.name !== undefined) {
       profile.name = profilePatchDto.name;
     }
-    if (isDefined(profilePatchDto.phone)) {
+    if (profilePatchDto.phone !== undefined) {
       profile.phone = profilePatchDto.phone;
     }
-    if (isDefined(profilePatchDto.email)) {
+    if (profilePatchDto.email !== undefined) {
       profile.email = profilePatchDto.email;
     }
 

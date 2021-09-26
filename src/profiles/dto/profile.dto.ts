@@ -3,11 +3,11 @@ import { Profile } from '../entities/profile.entity';
 export class ProfileDto {
   id: string;
 
-  email: string;
+  email: string | null;
 
-  name: string;
+  name: string | null;
 
-  phone: string;
+  phone: string | null;
 
   constructor(profile: Profile) {
     this.id = profile.id;
