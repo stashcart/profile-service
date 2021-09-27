@@ -6,11 +6,11 @@ export class Profile {
   id!: string;
 
   @Column({ unique: true })
-  email!: string | null;
+  email?: string;
 
   @Column({ nullable: true })
-  name!: string | null;
+  name?: string;
 
   @Column({ nullable: true })
-  phone!: string | null;
+  phone?: string;
 }

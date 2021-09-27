@@ -11,8 +11,8 @@ export class ProfileDto {
 
   constructor(profile: Profile) {
     this.id = profile.id;
-    this.email = profile.email;
-    this.name = profile.name;
-    this.phone = profile.phone;
+    this.email = profile.email ?? null;
+    this.name = profile.name ?? null;
+    this.phone = profile.phone ?? null;
   }
 }
