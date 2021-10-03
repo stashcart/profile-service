@@ -43,7 +43,7 @@ export class ProfilesService {
     const savedProfile = await this.profileRepository.save(profile);
 
     await this.amqpService.publish(
-      'profile.write',
+      'profile',
       'profile.created',
       new ProfileDto(savedProfile)
     );
@@ -78,7 +78,7 @@ export class ProfilesService {
     const savedProfile = await this.profileRepository.save(profile);
 
     await this.amqpService.publish(
-      'profile.write',
+      'profile',
       'profile.updated',
       new ProfileDto(savedProfile)
     );
