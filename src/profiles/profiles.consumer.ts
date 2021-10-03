@@ -10,7 +10,6 @@ export class ProfilesConsumer {
   @RabbitSubscribe({
     exchange: 'user.write',
     routingKey: 'user.created',
-    queue: 'profile-service-queue',
   })
   createProfile(userDto: UserDto) {
     this.profilesService.createFromUser(userDto);
