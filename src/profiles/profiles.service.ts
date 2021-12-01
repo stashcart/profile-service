@@ -53,8 +53,10 @@ export class ProfilesService {
 
   async createFromUser(userDto: UserDto): Promise<Profile> {
     const profile = new Profile();
+
     profile.id = userDto.id;
     profile.email = userDto.email;
+    profile.name = userDto.name;
 
     return this.saveAndPublishProfile(profile);
   }
